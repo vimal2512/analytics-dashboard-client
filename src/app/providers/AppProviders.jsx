@@ -1,11 +1,14 @@
-import AuthProvider from "../../features/auth/context/AuthContext";
+import AuthProvider from "../../features/auth/context/AuthProviders";
+import QueryProvider from "./QueryProvider";
 
-function AppProviders({children}) {
-    return (
-        <AuthProvider>
-            {children}
-        </AuthProvider>
-    )
+function AppProviders({ children }) {
+  return (
+    <QueryProvider>
+      <AuthProvider>
+        {children}
+      </AuthProvider>
+    </QueryProvider>
+  );
 }
 
 export default AppProviders;
