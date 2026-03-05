@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getWebsites, createWebsite, deleteWebsite } from "../services/websiteApi";
+import { getWebsites, createWebsite, deleteWebsite } from "../services/websitesMockApi";
 
 export function useWebsites() {
     return useQuery({
