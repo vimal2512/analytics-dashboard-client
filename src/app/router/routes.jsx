@@ -1,5 +1,6 @@
 import React from "react";
 import DashboardLayout from "../../shared/layouts/DashboardLayout";
+import ProtectedRoute from "../../shared/components/ProtectedRoute";
 
 const LoginPage = React.lazy(() =>
   import("../../features/auth/pages/LoginPage")
@@ -28,7 +29,11 @@ export const routes = [
   },
   {
     path: "/",
-    element: <DashboardLayout />,
+    element: (
+     <ProtectedRoute>
+         <DashboardLayout />
+    </ProtectedRoute>
+    ),
     children: [
       {
         path: "dashboard",
