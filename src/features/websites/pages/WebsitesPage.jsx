@@ -1,7 +1,14 @@
+import AddWebsiteForm from "../components/AddWebsiteForm";
+import WebsiteTable from "../components/WebsitesTable";
+
 function WebsitesPage() {
     return(
-        <div className="p-10">
-            <h1 className="text-3xl font-bold">Websites</h1>
+        <div>
+            <h1 className="text-2xl font-bold mb-6">Websites</h1>
+            
+            <AddWebsiteForm/>
+
+            <WebsiteTable/>
         </div>
     )
 }
