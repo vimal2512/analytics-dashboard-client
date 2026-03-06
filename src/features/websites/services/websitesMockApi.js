@@ -1,4 +1,13 @@
-let websites = [];
+const STORAGE_KEY = "mock_websites";
+
+function loadWebsites() {
+  const data = localStorage.getItem(STORAGE_KEY);
+  return data ? JSON.parse(data) : [];
+}
+
+function saveWebsites(websites) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(websites));
+}
 
 function generateTrackingId() {
   const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -12,12 +21,17 @@ function generateTrackingId() {
 }
 
 export async function getWebsites() {
-  await new Promise((resolve) => setTimeout(resolve, 500)); // simulate network
-  return websites;
+
+  await new Promise((r) => setTimeout(r, 300));
+
+  return loadWebsites();
 }
 
 export async function createWebsite(data) {
-  await new Promise((resolve) => setTimeout(resolve, 500));
+
+  await new Promise((r) => setTimeout(r, 300));
+
+  const websites = loadWebsites();
 
   const newWebsite = {
     _id: crypto.randomUUID(),
@@ -28,13 +42,18 @@ export async function createWebsite(data) {
 
   websites.push(newWebsite);
 
+  saveWebsites(websites);
+
   return newWebsite;
 }
 
 export async function deleteWebsite(id) {
-  await new Promise((resolve) => setTimeout(resolve, 500));
 
-  websites = websites.filter((site) => site._id !== id);
+  await new Promise((r) => setTimeout(r, 300));
+
+  const websites = loadWebsites().filter((site) => site._id !== id);
+
+  saveWebsites(websites);
 
   return { success: true };
 }
