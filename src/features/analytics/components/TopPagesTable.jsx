@@ -1,10 +1,19 @@
-const pages = [
-  { path: "/", views: 340 },
-  { path: "/pricing", views: 210 },
-  { path: "/blog", views: 180 }
-];
+function TopPagesTable({ pages }) {
 
-function TopPagesTable() {
+  if (!pages || pages.length === 0) {
+    return (
+      <div className="bg-white rounded shadow p-6">
+        <h2 className="font-bold mb-4">
+          Top Pages
+        </h2>
+
+        <p className="text-gray-500">
+          No page data yet
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded shadow p-6">
 
@@ -22,14 +31,21 @@ function TopPagesTable() {
         </thead>
 
         <tbody>
+
           {pages.map((page) => (
             <tr key={page.path} className="border-b">
 
-              <td className="p-2">{page.path}</td>
-              <td className="p-2">{page.views}</td>
+              <td className="p-2">
+                {page.path}
+              </td>
+
+              <td className="p-2">
+                {page.views}
+              </td>
 
             </tr>
           ))}
+
         </tbody>
 
       </table>
