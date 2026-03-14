@@ -57,6 +57,10 @@ function DashboardPage() {
           />
 
           <AnalyticsCard
+            title="sessions"
+            value={summary.sessions} />
+
+          <AnalyticsCard
             title="Page Views"
             value={summary.pageViews}
           />
