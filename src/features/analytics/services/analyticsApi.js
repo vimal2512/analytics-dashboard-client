@@ -11,3 +11,29 @@ export const getTrafficData = (trackingId) => {
 export const getTopPages = (trackingId) => {
   return apiClient.get(`/analytics/top-pages?trackingId=${trackingId}`);
 };
+
+
+
+/*
+Top Events
+*/
+
+export const getTopEvents = (trackingId) => {
+  return apiClient.get(`/analytics/top-events?trackingId=${trackingId}`);
+};
+
+/*
+Top Referrers
+*/
+
+export const getTopReferrers = (trackingId) => {
+  return apiClient.get(`/analytics/top-referrers?trackingId=${trackingId}`);
+};
+
+/*
+Top Countries
+*/
+
+export const getTopCountries = (trackingId) => {
+  return apiClient.get(`/analytics/top-countries?trackingId=${trackingId}`);
+};

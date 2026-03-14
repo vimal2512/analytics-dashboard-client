@@ -1,43 +1,24 @@
-// import AnalyticsCard from "../components/AnalyticsCard";
-// import TrafficChart from "../components/TrafficChart";
-// import TopPagesTable from "../components/TopPagesTable";
-
-// function DashboardPage() {
-//   return (
-
-//     <div className="space-y-6">
-
-//       <div className="grid grid-cols-3 gap-6">
-
-//         <AnalyticsCard title="Visitors" value="1,245" />
-//         <AnalyticsCard title="Page Views" value="3,890" />
-//         <AnalyticsCard title="Events" value="923" />
-
-//       </div>
-
-//       <TrafficChart />
-
-//       <TopPagesTable />
-
-//     </div>
-
-//   );
-// }
-
-// export default DashboardPage;
-
 import WebsiteSelector from "../../websites/components/WebsiteSelector";
 import { useSelectedWebsite } from "../../websites/context/SelectedWebsiteContext";
 
 import {
   useAnalyticsSummary,
   useTrafficData,
-  useTopPages
+  useTopPages,
+  useTopEvents,
+  useTopReferrers,
+  useTopCountries,
 } from "../hooks/useAnalytics";
+
+import { useLiveVisitors } from "../hooks/useLiveVisitors";
 
 import AnalyticsCard from "../components/AnalyticsCard";
 import TrafficChart from "../components/TrafficChart";
 import TopPagesTable from "../components/TopPagesTable";
+import TopEventsTable from "../components/TopEventsTable";
+import TopReferrersTable from "../components/TopReferrersTable";
+import TopCountriesTable from "../components/TopCountriesTable";
+import LiveVisitorsCard from "../components/LiveVisitorsCard";
 
 function DashboardPage() {
 
@@ -46,10 +27,13 @@ function DashboardPage() {
   const trackingId = selectedWebsite?.trackingId;
 
   const { data: summary } = useAnalyticsSummary(trackingId);
-
   const { data: traffic } = useTrafficData(trackingId);
-
   const { data: pages } = useTopPages(trackingId);
+  const { data: topEvents } = useTopEvents(trackingId);
+  const { data: referrers } = useTopReferrers(trackingId);
+  const { data: countries } = useTopCountries(trackingId);
+
+  const liveVisitors = useLiveVisitors();
 
   return (
 
@@ -58,8 +42,6 @@ function DashboardPage() {
       <h1 className="text-2xl font-bold">
         Analytics Dashboard
       </h1>
-
-      {/* Website selector */}
 
       <WebsiteSelector />
 
@@ -100,6 +82,25 @@ function DashboardPage() {
         <TopPagesTable pages={pages} />
       )}
 
+      {/* Top Events */}
+
+      {topEvents && (
+        <TopEventsTable events={topEvents} />
+      )}
+
+      {/* Top Referrers */}
+
+      {referrers && (
+        <TopReferrersTable referrers={referrers} />
+      )}
+
+      {/* Top countries */}
+
+      {countries && (
+        <TopCountriesTable countries={countries} />
+      )}
+
+       <LiveVisitorsCard count={liveVisitors} />
     </div>
 
   );

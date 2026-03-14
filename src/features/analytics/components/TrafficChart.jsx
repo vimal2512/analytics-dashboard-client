@@ -4,20 +4,13 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer
+  ResponsiveContainer,
+  CartesianGrid,
+  Legend
 } from "recharts";
 
-const data = [
-  { day: "Mon", visitors: 120 },
-  { day: "Tue", visitors: 210 },
-  { day: "Wed", visitors: 180 },
-  { day: "Thu", visitors: 250 },
-  { day: "Fri", visitors: 300 },
-  { day: "Sat", visitors: 280 },
-  { day: "Sun", visitors: 350 }
-];
+function TrafficChart({ data }) {
 
-function TrafficChart() {
   return (
     <div className="bg-white rounded shadow p-6">
 
@@ -26,16 +19,42 @@ function TrafficChart() {
       </h2>
 
       <ResponsiveContainer width="100%" height={300}>
+
         <LineChart data={data}>
+
+          <CartesianGrid strokeDasharray="3 3" />
+
           <XAxis dataKey="day" />
+
           <YAxis />
+
           <Tooltip />
-          <Line type="monotone" dataKey="visitors" stroke="#111827" />
+
+          <Legend />
+
+          <Line
+            type="monotone"
+            dataKey="visitors"
+            stroke="#2563eb"
+            strokeWidth={2}
+            name="Visitors"
+          />
+
+          <Line
+            type="monotone"
+            dataKey="pageViews"
+            stroke="#16a34a"
+            strokeWidth={2}
+            name="Page Views"
+          />
+
         </LineChart>
+
       </ResponsiveContainer>
 
     </div>
   );
+
 }
 
 export default TrafficChart;
