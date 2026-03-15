@@ -1,6 +1,7 @@
+import { useState } from "react";
+
 import WebsiteSelector from "../../websites/components/WebsiteSelector";
 import { useSelectedWebsite } from "../../websites/context/SelectedWebsiteContext";
-import { useState } from "react";
 
 import {
   useAnalyticsSummary,
@@ -9,11 +10,14 @@ import {
   useTopEvents,
   useTopReferrers,
   useTopCountries,
+  useSessionAnalytics
 } from "../hooks/useAnalytics";
 
 import { useLiveVisitors } from "../hooks/useLiveVisitors";
-import { useSessionAnalytics } from "../hooks/useAnalytics";
+import { useLivePages } from "../hooks/useLivePages";
+
 import { formatDuration } from "../utils/formatDuration";
+
 import AnalyticsCard from "../components/AnalyticsCard";
 import TrafficChart from "../components/TrafficChart";
 import TopPagesTable from "../components/TopPagesTable";
@@ -21,121 +25,159 @@ import TopEventsTable from "../components/TopEventsTable";
 import TopReferrersTable from "../components/TopReferrersTable";
 import TopCountriesTable from "../components/TopCountriesTable";
 import LiveVisitorsCard from "../components/LiveVisitorsCard";
-import { useLivePages } from "../hooks/useLivePages";
 import LivePagesTable from "../components/LivePagesTable";
 
 function DashboardPage() {
 
-   const [days, setDays] = useState(7);
-
   const { selectedWebsite } = useSelectedWebsite();
-
   const trackingId = selectedWebsite?.trackingId;
 
-  const { data: summary } = useAnalyticsSummary(trackingId, days);
-  const { data: traffic } = useTrafficData(trackingId, days);
-  const { data: pages } = useTopPages(trackingId, days);
-  const { data: topEvents } = useTopEvents(trackingId, days);
-  const { data: referrers } = useTopReferrers(trackingId, days);
-  const { data: countries } = useTopCountries(trackingId, days);
-  const { data: sessionStats } = useSessionAnalytics(trackingId, days);
+  const [days, setDays] = useState(7);
+
+  const { data: summary, isLoading: summaryLoading } =
+    useAnalyticsSummary(trackingId, days);
+
+  const { data: traffic } =
+    useTrafficData(trackingId, days);
+
+  const { data: pages } =
+    useTopPages(trackingId, days);
+
+  const { data: topEvents } =
+    useTopEvents(trackingId, days);
+
+  const { data: referrers } =
+    useTopReferrers(trackingId, days);
+
+  const { data: countries } =
+    useTopCountries(trackingId, days);
+
+  const { data: sessionStats } =
+    useSessionAnalytics(trackingId, days);
+
   const liveVisitors = useLiveVisitors();
   const livePages = useLivePages();
 
- 
-
   return (
 
-    <div className="space-y-6">
+    <div className="space-y-8 max-w-7xl mx-auto">
 
-      <h1 className="text-2xl font-bold">
-        Analytics Dashboard
-      </h1>
+      {/* Header */}
+
+      <div className="flex items-center justify-between">
+
+        <h1 className="text-2xl font-bold">
+          Analytics Dashboard
+        </h1>
+
+        <WebsiteSelector />
+
+      </div>
+
+      {/* Date Filter */}
 
       <div className="flex gap-3">
 
-  <button
-    className={`px-3 py-1 rounded ${days === 1 ? "bg-black text-white" : "bg-gray-200"}`}
-    onClick={() => setDays(1)}
-  >
-    Today
-  </button>
+        <button
+          onClick={() => setDays(1)}
+          className={`px-4 py-1.5 rounded-full text-sm font-medium transition
+          ${days === 1
+            ? "bg-black text-white shadow"
+            : "bg-gray-100 hover:bg-gray-200"}`}
+        >
+          Today
+        </button>
 
-  <button
-    className={`px-3 py-1 rounded ${days === 7 ? "bg-black text-white" : "bg-gray-200"}`}
-    onClick={() => setDays(7)}
-  >
-    7 Days
-  </button>
+        <button
+          onClick={() => setDays(7)}
+          className={`px-4 py-1.5 rounded-full text-sm font-medium transition
+          ${days === 7
+            ? "bg-black text-white shadow"
+            : "bg-gray-100 hover:bg-gray-200"}`}
+        >
+          7 Days
+        </button>
 
-  <button
-    className={`px-3 py-1 rounded ${days === 30 ? "bg-black text-white" : "bg-gray-200"}`}
-    onClick={() => setDays(30)}
-  >
-    30 Days
-  </button>
+        <button
+          onClick={() => setDays(30)}
+          className={`px-4 py-1.5 rounded-full text-sm font-medium transition
+          ${days === 30
+            ? "bg-black text-white shadow"
+            : "bg-gray-100 hover:bg-gray-200"}`}
+        >
+          30 Days
+        </button>
 
-</div>
+      </div>
 
-      <WebsiteSelector />
+      {/* Loading */}
 
-      {/* Analytics Cards */}
+      {summaryLoading && (
+        <div className="text-gray-500">
+          Loading analytics...
+        </div>
+      )}
+
+      {/* Empty state */}
+
+      {summary && summary.pageViews === 0 && (
+        <div className="bg-white p-6 rounded-xl shadow text-gray-500">
+          No analytics data yet. Open your website to start tracking visits.
+        </div>
+      )}
+
+      {/* Core Metrics */}
 
       {summary && (
+
+        <div className="grid grid-cols-4 gap-6">
+
+          <AnalyticsCard title="Visitors" value={summary.visitors} />
+
+          <AnalyticsCard title="Sessions" value={summary.sessions} />
+
+          <AnalyticsCard title="Page Views" value={summary.pageViews} />
+
+          <AnalyticsCard title="Events" value={summary.events} />
+
+        </div>
+
+      )}
+
+      {/* Session Metrics */}
+
+      {sessionStats && (
 
         <div className="grid grid-cols-3 gap-6">
 
           <AnalyticsCard
-            title="Visitors"
-            value={summary.visitors}
+            title="Avg Session Duration"
+            value={formatDuration(sessionStats.avgSessionDuration)}
           />
 
           <AnalyticsCard
-            title="sessions"
-            value={summary.sessions} />
-
-          <AnalyticsCard
-            title="Page Views"
-            value={summary.pageViews}
+            title="Bounce Rate"
+            value={`${sessionStats.bounceRate}%`}
           />
 
           <AnalyticsCard
-            title="Events"
-            value={summary.events}
+            title="Pages / Session"
+            value={sessionStats.pagesPerSession}
           />
-
-          <LivePagesTable
-            pages={livePages}
-           />
 
         </div>
 
-        
-
       )}
 
-      {sessionStats && (
+      {/* Live Metrics */}
 
-  <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 gap-6">
 
-    <AnalyticsCard
-      title="Avg Session Duration"
-      value={formatDuration(sessionStats.avgSessionDuration)}
-    />
+        <LiveVisitorsCard count={liveVisitors} />
 
-    <AnalyticsCard
-      title="Bounce Rate"
-      value={`${sessionStats.bounceRate}%`}
-    />
+        <LivePagesTable pages={livePages} />
 
-    <AnalyticsCard
-      title="Pages / Session"
-      value={sessionStats.pagesPerSession}
-    />
-
-  </div>
-
-)}
+      </div>
 
       {/* Traffic Chart */}
 
@@ -143,31 +185,24 @@ function DashboardPage() {
         <TrafficChart data={traffic} />
       )}
 
-      {/* Top Pages */}
+      {/* Analytics Tables */}
 
-      {pages && (
-        <TopPagesTable pages={pages} />
-      )}
+      <div className="grid grid-cols-2 gap-6">
 
-      {/* Top Events */}
+        {pages && <TopPagesTable pages={pages} />}
 
-      {topEvents && (
-        <TopEventsTable events={topEvents} />
-      )}
+        {topEvents && <TopEventsTable events={topEvents} />}
 
-      {/* Top Referrers */}
+      </div>
 
-      {referrers && (
-        <TopReferrersTable referrers={referrers} />
-      )}
+      <div className="grid grid-cols-2 gap-6">
 
-      {/* Top countries */}
+        {referrers && <TopReferrersTable referrers={referrers} />}
 
-      {countries && (
-        <TopCountriesTable countries={countries} />
-      )}
+        {countries && <TopCountriesTable countries={countries} />}
 
-       <LiveVisitorsCard count={liveVisitors} />
+      </div>
+
     </div>
 
   );
