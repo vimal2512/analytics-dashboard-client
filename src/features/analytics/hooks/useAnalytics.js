@@ -19,13 +19,13 @@ PageViews
 Events
 */
 
-export function useAnalyticsSummary(trackingId) {
+export function useAnalyticsSummary(trackingId, days) {
 
   return useQuery({
-    queryKey: ["analytics-summary", trackingId],
+    queryKey: ["analytics-summary", trackingId, days],
 
     queryFn: async () => {
-      const response = await getAnalyticsSummary(trackingId);
+      const response = await getAnalyticsSummary(trackingId, days);
       return response.data;
     },
 

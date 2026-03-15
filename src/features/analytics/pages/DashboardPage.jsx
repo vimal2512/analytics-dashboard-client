@@ -1,6 +1,6 @@
 import WebsiteSelector from "../../websites/components/WebsiteSelector";
 import { useSelectedWebsite } from "../../websites/context/SelectedWebsiteContext";
-
+import { useState } from "react";
 
 import {
   useAnalyticsSummary,
@@ -25,19 +25,23 @@ import LivePagesTable from "../components/LivePagesTable";
 
 function DashboardPage() {
 
+   const [days, setDays] = useState(7);
+
   const { selectedWebsite } = useSelectedWebsite();
 
   const trackingId = selectedWebsite?.trackingId;
 
-  const { data: summary } = useAnalyticsSummary(trackingId);
-  const { data: traffic } = useTrafficData(trackingId);
-  const { data: pages } = useTopPages(trackingId);
-  const { data: topEvents } = useTopEvents(trackingId);
-  const { data: referrers } = useTopReferrers(trackingId);
-  const { data: countries } = useTopCountries(trackingId);
+  const { data: summary } = useAnalyticsSummary(trackingId, days);
+  const { data: traffic } = useTrafficData(trackingId, days);
+  const { data: pages } = useTopPages(trackingId, days);
+  const { data: topEvents } = useTopEvents(trackingId, days);
+  const { data: referrers } = useTopReferrers(trackingId, days);
+  const { data: countries } = useTopCountries(trackingId, days);
 
   const liveVisitors = useLiveVisitors();
   const livePages = useLivePages();
+
+ 
 
   return (
 
@@ -46,6 +50,31 @@ function DashboardPage() {
       <h1 className="text-2xl font-bold">
         Analytics Dashboard
       </h1>
+
+      <div className="flex gap-3">
+
+  <button
+    className={`px-3 py-1 rounded ${days === 1 ? "bg-black text-white" : "bg-gray-200"}`}
+    onClick={() => setDays(1)}
+  >
+    Today
+  </button>
+
+  <button
+    className={`px-3 py-1 rounded ${days === 7 ? "bg-black text-white" : "bg-gray-200"}`}
+    onClick={() => setDays(7)}
+  >
+    7 Days
+  </button>
+
+  <button
+    className={`px-3 py-1 rounded ${days === 30 ? "bg-black text-white" : "bg-gray-200"}`}
+    onClick={() => setDays(30)}
+  >
+    30 Days
+  </button>
+
+</div>
 
       <WebsiteSelector />
 
