@@ -37,3 +37,11 @@ Top Countries
 export const getTopCountries = (trackingId,days) => {
   return apiClient.get(`/analytics/top-countries?trackingId=${trackingId}&days=${days}`);
 };
+
+// session analytics
+
+export const getSessionAnalytics = (trackingId, days) => {
+  return apiClient.get(
+    `/analytics/session-analytics?trackingId=${trackingId}&days=${days}`
+  );
+};

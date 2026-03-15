@@ -6,7 +6,8 @@ import {
   getTopPages,
   getTopCountries,
   getTopEvents,
-  getTopReferrers
+  getTopReferrers,
+  getSessionAnalytics
   
 } from "../services/analyticsApi";
 
@@ -123,6 +124,24 @@ export function useTopCountries(trackingId) {
 
     queryFn: async () => {
       const response = await getTopCountries(trackingId);
+      return response.data;
+    },
+
+    enabled: !!trackingId
+  });
+
+}
+
+
+// session analytics
+
+export function useSessionAnalytics(trackingId, days) {
+
+  return useQuery({
+    queryKey: ["session-analytics", trackingId, days],
+
+    queryFn: async () => {
+      const response = await getSessionAnalytics(trackingId, days);
       return response.data;
     },
 

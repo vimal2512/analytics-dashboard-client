@@ -12,7 +12,8 @@ import {
 } from "../hooks/useAnalytics";
 
 import { useLiveVisitors } from "../hooks/useLiveVisitors";
-
+import { useSessionAnalytics } from "../hooks/useAnalytics";
+import { formatDuration } from "../utils/formatDuration";
 import AnalyticsCard from "../components/AnalyticsCard";
 import TrafficChart from "../components/TrafficChart";
 import TopPagesTable from "../components/TopPagesTable";
@@ -37,7 +38,7 @@ function DashboardPage() {
   const { data: topEvents } = useTopEvents(trackingId, days);
   const { data: referrers } = useTopReferrers(trackingId, days);
   const { data: countries } = useTopCountries(trackingId, days);
-
+  const { data: sessionStats } = useSessionAnalytics(trackingId, days);
   const liveVisitors = useLiveVisitors();
   const livePages = useLivePages();
 
@@ -109,7 +110,32 @@ function DashboardPage() {
 
         </div>
 
+        
+
       )}
+
+      {sessionStats && (
+
+  <div className="grid grid-cols-3 gap-6">
+
+    <AnalyticsCard
+      title="Avg Session Duration"
+      value={formatDuration(sessionStats.avgSessionDuration)}
+    />
+
+    <AnalyticsCard
+      title="Bounce Rate"
+      value={`${sessionStats.bounceRate}%`}
+    />
+
+    <AnalyticsCard
+      title="Pages / Session"
+      value={sessionStats.pagesPerSession}
+    />
+
+  </div>
+
+)}
 
       {/* Traffic Chart */}
 
