@@ -1,6 +1,7 @@
 import WebsiteSelector from "../../websites/components/WebsiteSelector";
 import { useSelectedWebsite } from "../../websites/context/SelectedWebsiteContext";
 
+
 import {
   useAnalyticsSummary,
   useTrafficData,
@@ -19,6 +20,8 @@ import TopEventsTable from "../components/TopEventsTable";
 import TopReferrersTable from "../components/TopReferrersTable";
 import TopCountriesTable from "../components/TopCountriesTable";
 import LiveVisitorsCard from "../components/LiveVisitorsCard";
+import { useLivePages } from "../hooks/useLivePages";
+import LivePagesTable from "../components/LivePagesTable";
 
 function DashboardPage() {
 
@@ -34,6 +37,7 @@ function DashboardPage() {
   const { data: countries } = useTopCountries(trackingId);
 
   const liveVisitors = useLiveVisitors();
+  const livePages = useLivePages();
 
   return (
 
@@ -69,6 +73,10 @@ function DashboardPage() {
             title="Events"
             value={summary.events}
           />
+
+          <LivePagesTable
+            pages={livePages}
+           />
 
         </div>
 
