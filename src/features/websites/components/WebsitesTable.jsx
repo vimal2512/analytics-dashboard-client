@@ -1,75 +1,91 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useWebsites, useDeleteWebsite } from "../hooks/useWebsites";
 import TrackingScriptModal from "./TrackingScriptModal";
 
-function WebsiteTable() {
-    
-    
-    const { data, isLoading } = useWebsites();
-    console.log("websites data:", data);
-    const deleteWebsite = useDeleteWebsite();
+function WebsitesTable() {
 
-    const [selectedTrackingId, setSelectedTrackingId] = useState(null);
+  const { data, isLoading } = useWebsites();
+  const deleteWebsite = useDeleteWebsite();
+  const navigate = useNavigate();
 
-    if(isLoading) return <p>Loading...</p>
+  const [selectedTrackingId, setSelectedTrackingId] = useState(null);
 
-    const websites = data || [];
+  if (isLoading) return <p>Loading...</p>;
 
-    return(
-       
-    <div>
-              <table className="w-full bg-white rounded shadow">
-    <thead>
-      <tr className="border-b">
-        <th className="p-3 text-left">Domain</th>
-        <th className="p-3 text-left">Tracking ID</th>
-        <th className="p-3 text-center">Actions</th>
-      </tr>
-    </thead>
+  const websites = data || [];
 
-    <tbody>
-      {websites.map((site) => (
-        <tr key={site._id} className="border-b">
+  return (
 
-          <td className="p-3">{site.domain}</td>
+    <div className="bg-white rounded-xl shadow">
 
-          <td className="p-3 font-mono text-sm">
-            {site.trackingId}
-          </td>
+      <table className="w-full">
 
-          <td className="p-3 text-center">
+        <thead className="border-b bg-gray-50">
+          <tr>
+            <th className="p-4 text-left">Domain</th>
+            <th className="p-4 text-left">Tracking ID</th>
+            <th className="p-4 text-center">Actions</th>
+          </tr>
+        </thead>
 
-            <button
-              onClick={() => setSelectedTrackingId(site.trackingId)}
-              className="text-blue-600 mr-4"
-            >
-              Install
-            </button>
+        <tbody>
 
-            <button
-              onClick={() => deleteWebsite.mutate(site._id)}
-              className="text-red-600"
-            >
-              Delete
-            </button>
+          {websites.map((site) => (
 
-          </td>
+            <tr key={site._id} className="border-b">
 
-        </tr>
-      ))}
-    </tbody>
-  </table>
+              <td className="p-4">{site.domain}</td>
 
-  {selectedTrackingId && (
-    <TrackingScriptModal
-      trackingId={selectedTrackingId}
-      onClose={() => setSelectedTrackingId(null)}
-    />
-  )}
+              <td className="p-4 font-mono text-sm">
+                {site.trackingId}
+              </td>
 
-</div>
-         
-    )
+              <td className="p-4 text-center space-x-4">
+
+                <button
+                  onClick={() => setSelectedTrackingId(site.trackingId)}
+                  className="text-blue-600 hover:underline"
+                >
+                  Install
+                </button>
+
+                <button
+                  onClick={() => navigate(`/websites/${site._id}/settings`)}
+                  className="text-gray-700 hover:underline"
+                >
+                  Settings
+                </button>
+
+                <button
+                  onClick={() => deleteWebsite.mutate(site._id)}
+                  className="text-red-600 hover:underline"
+                >
+                  Delete
+                </button>
+
+              </td>
+
+            </tr>
+
+          ))}
+
+        </tbody>
+
+      </table>
+
+      {selectedTrackingId && (
+
+        <TrackingScriptModal
+          trackingId={selectedTrackingId}
+          onClose={() => setSelectedTrackingId(null)}
+        />
+
+      )}
+
+    </div>
+
+  );
 }
 
-export default WebsiteTable;
+export default WebsitesTable;

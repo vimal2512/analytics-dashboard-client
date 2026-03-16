@@ -18,6 +18,10 @@ const WebsitesPage = React.lazy(() =>
   import("../../features/websites/pages/WebsitesPage")
 );
 
+const WebsiteSettingsPage = React.lazy(() =>
+  import("../../features/websites/pages/WebsiteSettingsPage")
+);
+
 export const routes = [
   {
     path: "/login",
@@ -42,6 +46,10 @@ export const routes = [
       {
         path: "websites",
         element: <WebsitesPage />
+      },
+      {
+        path: "websites/:id/settings",
+        element: <WebsiteSettingsPage />
       }
     ]
   }
