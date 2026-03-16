@@ -1,5 +1,13 @@
 function TopEventsTable({ events }) {
 
+  if (!events || events.length === 0) {
+  return (
+    <div className="bg-white p-6 rounded-xl shadow-sm text-gray-500">
+      No Events data yet
+    </div>
+  );
+}
+
   return (
 
     <div className="bg-white p-6 rounded-lg shadow">

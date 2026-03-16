@@ -1,5 +1,13 @@
 function TopReferrersTable({ referrers }) {
 
+  if (!referrers || referrers.length === 0) {
+  return (
+    <div className="bg-white p-6 rounded-xl shadow-sm text-gray-500">
+      No page data yet
+    </div>
+  );
+}
+
   return (
 
     <div className="bg-white p-6 rounded-lg shadow">

@@ -19,11 +19,15 @@ import { useLivePages } from "../hooks/useLivePages";
 import { formatDuration } from "../utils/formatDuration";
 
 import AnalyticsCard from "../components/AnalyticsCard";
+import SkeletonCard from "../components/SkeletonCard";
+import SkeletonChart from "../components/SkeletonChart";
+
 import TrafficChart from "../components/TrafficChart";
 import TopPagesTable from "../components/TopPagesTable";
 import TopEventsTable from "../components/TopEventsTable";
 import TopReferrersTable from "../components/TopReferrersTable";
 import TopCountriesTable from "../components/TopCountriesTable";
+
 import LiveVisitorsCard from "../components/LiveVisitorsCard";
 import LivePagesTable from "../components/LivePagesTable";
 
@@ -37,7 +41,7 @@ function DashboardPage() {
   const { data: summary, isLoading: summaryLoading } =
     useAnalyticsSummary(trackingId, days);
 
-  const { data: traffic } =
+  const { data: traffic, isLoading: trafficLoading } =
     useTrafficData(trackingId, days);
 
   const { data: pages } =
@@ -60,7 +64,7 @@ function DashboardPage() {
 
   return (
 
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-8 max-w-7xl mx-auto fade-page">
 
       {/* Header */}
 
@@ -81,9 +85,7 @@ function DashboardPage() {
         <button
           onClick={() => setDays(1)}
           className={`px-4 py-1.5 rounded-full text-sm font-medium transition
-          ${days === 1
-            ? "bg-black text-white shadow"
-            : "bg-gray-100 hover:bg-gray-200"}`}
+          ${days === 1 ? "bg-black text-white shadow" : "bg-gray-100 hover:bg-gray-200"}`}
         >
           Today
         </button>
@@ -91,9 +93,7 @@ function DashboardPage() {
         <button
           onClick={() => setDays(7)}
           className={`px-4 py-1.5 rounded-full text-sm font-medium transition
-          ${days === 7
-            ? "bg-black text-white shadow"
-            : "bg-gray-100 hover:bg-gray-200"}`}
+          ${days === 7 ? "bg-black text-white shadow" : "bg-gray-100 hover:bg-gray-200"}`}
         >
           7 Days
         </button>
@@ -101,43 +101,31 @@ function DashboardPage() {
         <button
           onClick={() => setDays(30)}
           className={`px-4 py-1.5 rounded-full text-sm font-medium transition
-          ${days === 30
-            ? "bg-black text-white shadow"
-            : "bg-gray-100 hover:bg-gray-200"}`}
+          ${days === 30 ? "bg-black text-white shadow" : "bg-gray-100 hover:bg-gray-200"}`}
         >
           30 Days
         </button>
 
       </div>
 
-      {/* Loading */}
-
-      {summaryLoading && (
-        <div className="text-gray-500">
-          Loading analytics...
-        </div>
-      )}
-
-      {/* Empty state */}
-
-      {summary && summary.pageViews === 0 && (
-        <div className="bg-white p-6 rounded-xl shadow text-gray-500">
-          No analytics data yet. Open your website to start tracking visits.
-        </div>
-      )}
-
       {/* Core Metrics */}
 
-      {summary && (
+      {summaryLoading ? (
+
+        <div className="grid grid-cols-4 gap-6">
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+        </div>
+
+      ) : summary && (
 
         <div className="grid grid-cols-4 gap-6">
 
           <AnalyticsCard title="Visitors" value={summary.visitors} />
-
           <AnalyticsCard title="Sessions" value={summary.sessions} />
-
           <AnalyticsCard title="Page Views" value={summary.pageViews} />
-
           <AnalyticsCard title="Events" value={summary.events} />
 
         </div>
@@ -181,11 +169,13 @@ function DashboardPage() {
 
       {/* Traffic Chart */}
 
-      {traffic && (
-        <TrafficChart data={traffic} />
+      {trafficLoading ? (
+        <SkeletonChart />
+      ) : (
+        traffic && <TrafficChart data={traffic} />
       )}
 
-      {/* Analytics Tables */}
+      {/* Tables */}
 
       <div className="grid grid-cols-2 gap-6">
 
