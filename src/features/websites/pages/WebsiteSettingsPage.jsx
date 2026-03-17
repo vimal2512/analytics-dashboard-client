@@ -35,7 +35,7 @@ function WebsiteSettingsPage() {
     updateWebsite.mutate(
       { id, data: form },
       {
-        onSuccess: () => setSaved(true)
+        onSuccess:() => setSaved(true)
       }
     );
   };
