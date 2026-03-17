@@ -3,7 +3,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getWebsites,
   createWebsite,
-  deleteWebsite
+  deleteWebsite,
+  updateWebsite
 } from "../services/websiteApi";
 
 /*
@@ -50,6 +51,25 @@ export function useDeleteWebsite() {
 
     onSuccess: () => {
       queryClient.invalidateQueries(["websites"]);
+    }
+  });
+
+}
+
+/*
+UPDATE WEBSITE
+*/
+export function useUpdateWebsite() {
+
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, data }) => updateWebsite(id, data),
+
+    onSuccess: (_, variables) => {
+      // refresh both list + single website
+      queryClient.invalidateQueries(["websites"]);
+      queryClient.invalidateQueries(["website", variables.id]);
     }
   });
 

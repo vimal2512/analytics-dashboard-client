@@ -1,18 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import {
-  useWebsiteSettings,
-  useUpdateWebsite
-} from "../hooks/useWebsiteSettings";
-
+import { useWebsites, useUpdateWebsite } from "../hooks/useWebsites";
 import WebsiteScript from "../components/WebsiteScript";
 
 function WebsiteSettingsPage() {
 
   const { id } = useParams();
 
-  const { data, isLoading } = useWebsiteSettings(id);
+  const { data, isLoading } = useWebsites(id);
   const updateWebsite = useUpdateWebsite();
 
   const [form, setForm] = useState({
