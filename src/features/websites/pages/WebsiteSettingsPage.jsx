@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import { useWebsiteSettings } from "../hooks/useWebsiteSetting";
+import { useWebsiteSettings } from "../hooks/useWebsiteSettings";
 import { useUpdateWebsite } from "../hooks/useWebsites";
 
 import WebsiteScript from "../components/WebsiteScript";
