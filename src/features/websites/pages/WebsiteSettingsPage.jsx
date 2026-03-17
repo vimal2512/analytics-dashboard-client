@@ -1,46 +1,48 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import { useWebsites, useUpdateWebsite } from "../hooks/useWebsites";
+import { useWebsiteSettings } from "../hooks/useWebsiteSettings";
+import { useUpdateWebsite } from "../hooks/useWebsites";
+
 import WebsiteScript from "../components/WebsiteScript";
 
 function WebsiteSettingsPage() {
 
   const { id } = useParams();
 
-  const { data, isLoading } = useWebsites(id);
+  const { data, isLoading } = useWebsiteSettings(id);
   const updateWebsite = useUpdateWebsite();
 
-  const [form, setForm] = useState({
-    timezone: "UTC",
-    retentionDays: 30,
-    isActive: true
-  });
-
+  const [form, setForm] = useState(null);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    if (data) {
+
+    if (data && !form) {
       setForm({
         timezone: data.timezone || "UTC",
         retentionDays: data.retentionDays || 30,
         isActive: data.isActive ?? true
       });
     }
-  }, [data]);
+
+  }, [data, form]);
 
   const handleSave = () => {
+
     setSaved(false);
 
     updateWebsite.mutate(
       { id, data: form },
       {
-        onSuccess:() => setSaved(true)
+        onSuccess: () => setSaved(true)
       }
     );
+
   };
 
-  if (isLoading) {
+  // Loading safety
+  if (isLoading || !form) {
     return <p className="text-gray-500">Loading settings...</p>;
   }
 
