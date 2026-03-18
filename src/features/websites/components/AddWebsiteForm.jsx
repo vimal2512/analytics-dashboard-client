@@ -9,7 +9,8 @@ function AddWebsiteForm() {
         e.preventDefault();
 
         createWebsite.mutate({
-            domain
+            domain,
+            userId: "user_1"
         });
 
         setDomain("")
