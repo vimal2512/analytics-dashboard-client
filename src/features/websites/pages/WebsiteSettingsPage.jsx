@@ -1,32 +1,29 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-
-import { useWebsiteSettings } from "../hooks/useWebsiteSettings";
-import { useUpdateWebsite } from "../hooks/useWebsites";
-
+import { useWebsites, useUpdateWebsite } from "../hooks/useWebsites";
 import WebsiteScript from "../components/WebsiteScript";
 
 function WebsiteSettingsPage() {
 
   const { id } = useParams();
 
-  const { data, isLoading } = useWebsiteSettings(id);
+  const { data : websites, isLoading } = useWebsites();
   const updateWebsite = useUpdateWebsite();
+
+  const data = websites?.find((w) => w._id === id);
 
   const [form, setForm] = useState(null);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-
-    if (data && !form) {
-      setForm({
-        timezone: data.timezone || "UTC",
-        retentionDays: data.retentionDays || 30,
-        isActive: data.isActive ?? true
-      });
-    }
-
-  }, [data, form]);
+  if (data) {
+    setForm({
+      timezone: data.timezone || "UTC",
+      retentionDays: data.retentionDays || 30,
+      isActive: data.isActive ?? true
+    });
+  }
+}, [data]);
 
   const handleSave = () => {
 
@@ -41,8 +38,13 @@ function WebsiteSettingsPage() {
 
   };
 
+
+if (!isLoading && !data) {
+  return <p className="text-red-500">Website not found</p>;
+}
+
   // Loading safety
-  if (isLoading || !form) {
+  if (isLoading || !form || !data) {
     return <p className="text-gray-500">Loading settings...</p>;
   }
 
