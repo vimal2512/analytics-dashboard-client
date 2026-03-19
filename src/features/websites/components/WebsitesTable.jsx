@@ -43,6 +43,7 @@ function WebsitesTable() {
 
               <td className="p-4 text-center space-x-4">
 
+                {/* Install Script */}
                 <button
                   onClick={() => setSelectedTrackingId(site.trackingId)}
                   className="text-blue-600 hover:underline"
@@ -50,13 +51,17 @@ function WebsitesTable() {
                   Install
                 </button>
 
+                {/* ✅ FIXED: Use trackingId instead of _id */}
                 <button
-                  onClick={() => navigate(`/websites/${site._id}/settings`)}
+                  onClick={() =>
+                    navigate(`/websites/${site._id}/settings`)
+                  }
                   className="text-gray-700 hover:underline"
                 >
                   Settings
                 </button>
 
+                {/* Delete */}
                 <button
                   onClick={() => deleteWebsite.mutate(site._id)}
                   className="text-red-600 hover:underline"

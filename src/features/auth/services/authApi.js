@@ -1,9 +1,9 @@
-import apiClient from "../..//../infrastructure/api/apiClient";
+import apiClient from "../../../infrastructure/api/apiClient";
 
-export const login = (data) => {
-    return apiClient.post("/auth/login", data);
-}
+export const loginUser = (data) => {
+  return apiClient.post("/auth/login", data);
+};
 
-export const signup = (data) => {
-    return apiClient.post("/auth/signup", data);
-}
+export const registerUser = (data) => {
+  return apiClient.post("/auth/register", data);
+};

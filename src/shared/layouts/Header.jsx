@@ -1,4 +1,9 @@
 function Header() {
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login"
+  }
   return (
 
     <div className="h-16 bg-white border-b flex items-center justify-between px-6 shadow-sm">
@@ -17,7 +22,10 @@ function Header() {
           Welcome, User
         </span>
 
-        <button className="px-4 py-1.5 bg-gray-900 text-white rounded-lg text-sm hover:bg-black transition">
+        <button 
+          onClick={handleLogout}
+          className="px-4 py-1.5 bg-gray-900 text-white rounded-lg text-sm hover:bg-black transition"
+        >
           Logout
         </button>
 
