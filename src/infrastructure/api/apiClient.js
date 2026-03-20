@@ -48,11 +48,9 @@
 
 import axios from "axios";
 
-console.log("API URL:", import.meta.env.VITE_API_URL);
-
 const apiClient = axios.create({
-  // baseURL: "https://analytics-dashboard-server.onrender.com/api"
-  baseURL: `${import.meta.env.VITE_API_URL}`
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true // 🔥 ADD THIS
 });
 
 // 🔥 INTERCEPTOR
