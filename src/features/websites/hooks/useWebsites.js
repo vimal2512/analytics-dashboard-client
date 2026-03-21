@@ -33,7 +33,11 @@ export function useCreateWebsite() {
     mutationFn: createWebsite,
 
     onSuccess: () => {
-      queryClient.invalidateQueries(["websites"]);
+      queryClient.invalidateQueries({ queryKey: ["websites"] });
+    },
+
+    onError: (error) => {
+      console.error("Create website error:", error);
     }
   });
 
@@ -50,7 +54,11 @@ export function useDeleteWebsite() {
     mutationFn: deleteWebsite,
 
     onSuccess: () => {
-      queryClient.invalidateQueries(["websites"]);
+      queryClient.invalidateQueries({ queryKey: ["websites"] });
+    },
+
+    onError: (error) => {
+      console.error("Delete website error:", error);
     }
   });
 
@@ -66,10 +74,12 @@ export function useUpdateWebsite() {
   return useMutation({
     mutationFn: ({ id, data }) => updateWebsite(id, data),
 
-    onSuccess: (_, variables) => {
-      // refresh both list + single website
-      queryClient.invalidateQueries(["websites"]);
-      queryClient.invalidateQueries(["website", variables.id]);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["websites"] });
+    },
+
+    onError: (error) => {
+      console.error("Update website error:", error);
     }
   });
 

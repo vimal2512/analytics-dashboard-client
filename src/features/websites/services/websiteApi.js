@@ -4,7 +4,7 @@ import apiClient from "../../../infrastructure/api/apiClient";
 GET ALL WEBSITES
 */
 export const getWebsites = () => {
-  return apiClient.get("/websites?userId=user_1");
+  return apiClient.get("/websites");
 };
 
 /*
