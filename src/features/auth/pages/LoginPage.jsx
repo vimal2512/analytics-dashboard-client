@@ -17,8 +17,7 @@ function LoginPage() {
     try {
       const res = await loginUser(form);
 
-      console.log("LOGIN RESPONSE:", res.data); // 🔥 DEBUG
-
+  
       if (!res.data.token) {
         throw new Error("Token missing in response");
       }
