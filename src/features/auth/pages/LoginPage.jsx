@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { loginUser } from "../services/authApi";
 import { useNavigate, Link } from "react-router-dom";
+import { loginUser } from "../services/authApi";
 
 function LoginPage() {
 
@@ -17,17 +17,25 @@ function LoginPage() {
     try {
       const res = await loginUser(form);
 
+      console.log("LOGIN RESPONSE:", res.data); // 🔥 DEBUG
+
+      if (!res.data.token) {
+        throw new Error("Token missing in response");
+      }
+
+      // 🔥 STORE ONLY TOKEN
       localStorage.setItem("token", res.data.token);
 
+      // 🔥 NAVIGATE AFTER TOKEN SET
       navigate("/dashboard");
 
-    } catch {
+    } catch (err) {
+      console.error("LOGIN ERROR:", err);
       alert("Invalid credentials");
     }
   };
 
   return (
-
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
 
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
@@ -42,6 +50,7 @@ function LoginPage() {
             type="email"
             placeholder="Email"
             className="w-full border rounded-lg p-3"
+            value={form.email}
             onChange={(e) =>
               setForm({ ...form, email: e.target.value })
             }
@@ -51,6 +60,7 @@ function LoginPage() {
             type="password"
             placeholder="Password"
             className="w-full border rounded-lg p-3"
+            value={form.password}
             onChange={(e) =>
               setForm({ ...form, password: e.target.value })
             }
