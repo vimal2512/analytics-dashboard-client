@@ -3,83 +3,67 @@ import { registerUser } from "../services/authApi";
 import { useNavigate, Link } from "react-router-dom";
 
 function SignupPage() {
-
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     try {
       await registerUser(form);
-
       navigate("/login");
-
     } catch {
       alert("Signup failed");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
+    <div className="auth-page">
+      <aside className="auth-aside">
+        <div className="auth-brand"><span className="brand-dot" />Pulseboard</div>
+        <div className="auth-aside-content">
+          <p className="page-eyebrow">Start with clarity</p>
+          <h1 className="auth-aside-title mt-4">Your product has a pulse.</h1>
+          <p className="auth-aside-copy mt-5">Connect your first property and turn everyday activity into a sharper view of growth.</p>
+          <div className="auth-proof"><span>Fast setup</span><span>Real-time context</span></div>
+        </div>
+      </aside>
 
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <main className="auth-form-area">
+        <div className="auth-panel">
+          <p className="page-eyebrow">Create workspace</p>
+          <h2 className="auth-panel-heading mt-3">Start your Pulseboard account</h2>
+          <p className="auth-panel-copy mt-2">Set up your analytics workspace in a minute.</p>
 
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
 
-        <h2 className="text-2xl font-bold text-center mb-6">
-          Create Account
-        </h2>
+          <label className="auth-field">Full name
+            <input type="text" placeholder="Your name" className="auth-input" onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+          </label>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+          <label className="auth-field">Work email
+            <input type="email" placeholder="you@company.com" className="auth-input" onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+          </label>
 
-          <input
-            type="text"
-            placeholder="Name"
-            className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-black"
-            onChange={(e) =>
-              setForm({ ...form, name: e.target.value })
-            }
-          />
+          <label className="auth-field">Password
+            <input type="password" placeholder="At least 8 characters" className="auth-input" onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+          </label>
 
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-black"
-            onChange={(e) =>
-              setForm({ ...form, email: e.target.value })
-            }
-          />
-
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-black"
-            onChange={(e) =>
-              setForm({ ...form, password: e.target.value })
-            }
-          />
-
-          <button
-            className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition"
-          >
-            Signup
-          </button>
+          <button type="submit" disabled={isSubmitting} className="auth-submit">{isSubmitting ? "Creating workspace..." : "Create account"}</button>
 
         </form>
-
-        <p className="text-sm text-center mt-4 text-gray-500">
-          Already have an account?{" "}
-          <Link to="/login" className="text-black font-medium">
-            Login
-          </Link>
-        </p>
-
-      </div>
+        <p className="auth-switch mt-7">Already have an account? <Link to="/login" className="auth-link">Sign in</Link></p>
+        </div>
+      </main>
 
     </div>
   );

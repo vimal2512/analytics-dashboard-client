@@ -1,30 +1,42 @@
+import apiClient from "../../infrastructure/api/apiClient";
+import { clearAccessToken } from "../../features/auth/store/authStore";
+
 function Header() {
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login"
-  }
+  const handleLogout = async () => {
+    try {
+      await apiClient.post("/auth/logout");
+    } catch (error) {
+      console.error("Logout request failed", error);
+    } finally {
+      clearAccessToken();
+      window.location.href = "/login";
+    }
+  };
+
   return (
 
-    <div className="h-16 bg-white border-b flex items-center justify-between px-6 shadow-sm">
+    <div className="topbar-shell flex items-center justify-between px-8">
 
       {/* Page Title */}
 
-      <h2 className="text-lg font-semibold text-gray-800">
-        Dashboard
-      </h2>
+      <div>
+        <p className="topbar-kicker">Workspace overview</p>
+        <h2 className="topbar-title text-lg font-semibold">Dashboard</h2>
+      </div>
 
       {/* Right Side */}
 
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-3">
+        <span className="user-avatar">WU</span>
 
-        <span className="text-sm text-gray-500">
+        <span className="hidden text-sm text-slate-600 sm:block">
           Welcome, User
         </span>
 
         <button 
           onClick={handleLogout}
-          className="px-4 py-1.5 bg-gray-900 text-white rounded-lg text-sm hover:bg-black transition"
+          className="logout-button rounded-md px-3 py-2 text-xs font-semibold"
         >
           Logout
         </button>

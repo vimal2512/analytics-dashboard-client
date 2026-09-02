@@ -8,144 +8,107 @@ import {
   getTopEvents,
   getTopReferrers,
   getSessionAnalytics
-  
 } from "../services/analyticsApi";
 
-
+import { getAccessToken } from "../../auth/store/authStore";
 
 /*
 Analytics Summary
-Visitors
-PageViews
-Events
 */
-
 export function useAnalyticsSummary(trackingId, days) {
-
   return useQuery({
     queryKey: ["analytics-summary", trackingId, days],
-
     queryFn: async () => {
-      const response = await getAnalyticsSummary(trackingId, days);
-      return response.data;
+      const res = await getAnalyticsSummary(trackingId, days);
+      return res.data;
     },
-
-    enabled: !!trackingId
+    enabled: !!trackingId && !!getAccessToken()
   });
-
 }
 
 /*
-Traffic Chart Data
+Traffic
 */
-
-export function useTrafficData(trackingId) {
-
+export function useTrafficData(trackingId, days) {
   return useQuery({
-    queryKey: ["analytics-traffic", trackingId],
-
+    queryKey: ["analytics-traffic", trackingId, days],
     queryFn: async () => {
-      const response = await getTrafficData(trackingId);
-      return response.data;
+      const res = await getTrafficData(trackingId, days);
+      return res.data;
     },
-
-    enabled: !!trackingId
+    enabled: !!trackingId && !!getAccessToken()
   });
-
 }
 
 /*
-Top Pages Table
+Top Pages
 */
-
-export function useTopPages(trackingId) {
-
+export function useTopPages(trackingId, days) {
   return useQuery({
-    queryKey: ["analytics-top-pages", trackingId],
-
+    queryKey: ["analytics-top-pages", trackingId, days],
     queryFn: async () => {
-      const response = await getTopPages(trackingId);
-      return response.data;
+      const res = await getTopPages(trackingId, days);
+      return res.data;
     },
-
-    enabled: !!trackingId
+    enabled: !!trackingId && !!getAccessToken()
   });
-
 }
 
 /*
 Top Events
 */
-
-export function useTopEvents(trackingId) {
-
+export function useTopEvents(trackingId, days) {
   return useQuery({
-    queryKey: ["analytics-top-events", trackingId],
-
+    queryKey: ["analytics-top-events", trackingId, days],
     queryFn: async () => {
-      const response = await getTopEvents(trackingId);
-      return response.data;
+      const res = await getTopEvents(trackingId, days);
+      return res.data;
     },
-
-    enabled: !!trackingId
+    enabled: !!trackingId && !!getAccessToken()
   });
-
 }
-
-
 
 /*
 Top Referrers
 */
-
-export function useTopReferrers(trackingId) {
-
+export function useTopReferrers(trackingId, days) {
   return useQuery({
-    queryKey: ["analytics-top-referrers", trackingId],
-
+    queryKey: ["analytics-top-referrers", trackingId, days],
     queryFn: async () => {
-      const response = await getTopReferrers(trackingId);
-      return response.data;
+      const res = await getTopReferrers(trackingId, days);
+      return res.data;
     },
-
-    enabled: !!trackingId
+    enabled: !!trackingId && !!getAccessToken()
   });
-
 }
 
 /*
 Top Countries
 */
-
-export function useTopCountries(trackingId) {
-
+export function useTopCountries(trackingId, days) {
   return useQuery({
-    queryKey: ["analytics-top-countries", trackingId],
-
+    queryKey: ["analytics-top-countries", trackingId, days],
     queryFn: async () => {
-      const response = await getTopCountries(trackingId);
-      return response.data;
+      const res = await getTopCountries(trackingId, days);
+      return res.data;
     },
-
-    enabled: !!trackingId
+    enabled: !!trackingId && !!getAccessToken()
   });
-
 }
 
-
-// session analytics
-
+/*
+Session Analytics
+*/
 export function useSessionAnalytics(trackingId, days) {
-
   return useQuery({
     queryKey: ["session-analytics", trackingId, days],
-
     queryFn: async () => {
-      const response = await getSessionAnalytics(trackingId, days);
-      return response.data;
+      const res = await getSessionAnalytics(trackingId, days);
+      return res.data;
     },
-
-    enabled: !!trackingId
+    enabled: !!trackingId && !!getAccessToken()
   });
-
 }
+
+
+

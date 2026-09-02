@@ -7,17 +7,24 @@ import {
   updateWebsite
 } from "../services/websiteApi";
 
+import { getAccessToken } from "../../auth/store/authStore";
+
 /*
 GET ALL WEBSITES
 */
 export function useWebsites() {
 
+  const token = getAccessToken(); // ✅ inside hook
+
   return useQuery({
     queryKey: ["websites"],
+
     queryFn: async () => {
       const res = await getWebsites();
       return res.data;
-    }
+    },
+
+    enabled: !!token // ✅ MUST be inside object
   });
 
 }

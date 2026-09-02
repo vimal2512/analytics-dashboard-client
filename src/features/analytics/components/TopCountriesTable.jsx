@@ -2,7 +2,7 @@ function TopCountriesTable({ countries }) {
 
   if (!countries || countries.length === 0) {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm text-gray-500">
+    <div className="empty-state p-6 text-sm">
       No page data yet
     </div>
   );
@@ -10,9 +10,9 @@ function TopCountriesTable({ countries }) {
 
   return (
 
-    <div className="bg-white p-6 rounded shadow">
+    <div className="data-panel p-5">
 
-      <h2 className="font-bold mb-4">
+      <h2 className="panel-heading mb-4 font-semibold">
         Top Countries
       </h2>
 
@@ -20,8 +20,8 @@ function TopCountriesTable({ countries }) {
 
         <thead>
           <tr>
-            <th className="text-left">Country</th>
-            <th className="text-right">Visits</th>
+            <th className="p-2 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">Country</th>
+            <th className="p-2 text-right text-xs font-semibold uppercase tracking-wider text-slate-400">Visits</th>
           </tr>
         </thead>
 
@@ -30,8 +30,8 @@ function TopCountriesTable({ countries }) {
           {countries.map(c => (
 
             <tr key={c.country}>
-              <td>{c.country}</td>
-              <td className="text-right">{c.visits}</td>
+              <td className="border-t p-2 text-sm text-slate-700">{c.country}</td>
+              <td className="border-t p-2 text-right text-sm font-semibold text-slate-800">{c.visits}</td>
             </tr>
 
           ))}

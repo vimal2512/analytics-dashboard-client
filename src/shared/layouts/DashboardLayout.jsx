@@ -5,15 +5,15 @@ import { Outlet } from "react-router-dom";
 function DashboardLayout() {
   return (
 
-    <div className="flex h-screen bg-gray-100">
+    <div className="app-shell flex h-screen">
 
       <Sidebar />
 
-      <div className="flex-1 flex flex-col">
+      <div className="app-main flex flex-1 flex-col">
 
         <Header />
 
-        <main className="flex-1 overflow-y-auto p-8">
+        <main className="app-content flex-1 overflow-y-auto">
           <Outlet />
         </main>
 

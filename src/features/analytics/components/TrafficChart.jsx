@@ -12,21 +12,25 @@ import {
 function TrafficChart({ data }) {
 
   return (
-    <div className="bg-white rounded shadow p-6">
+    <div className="data-panel p-5">
 
-      <h2 className="font-bold mb-4">
-        Traffic
-      </h2>
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h2 className="panel-heading font-semibold">Traffic overview</h2>
+          <p className="panel-meta mt-1">Visitors and page views over time</p>
+        </div>
+        <span className="panel-meta">Last selected period</span>
+      </div>
 
       <ResponsiveContainer width="100%" height={300}>
 
         <LineChart data={data}>
 
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid stroke="#e5edef" strokeDasharray="3 3" vertical={false} />
 
-          <XAxis dataKey="day" />
+          <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: "#8797a0", fontSize: 12 }} />
 
-          <YAxis />
+          <YAxis axisLine={false} tickLine={false} tick={{ fill: "#8797a0", fontSize: 12 }} />
 
           <Tooltip />
 
@@ -35,16 +39,18 @@ function TrafficChart({ data }) {
           <Line
             type="monotone"
             dataKey="visitors"
-            stroke="#2563eb"
-            strokeWidth={2}
+            stroke="#0f766e"
+            strokeWidth={3}
+            dot={false}
             name="Visitors"
           />
 
           <Line
             type="monotone"
             dataKey="pageViews"
-            stroke="#16a34a"
-            strokeWidth={2}
+            stroke="#e39b3d"
+            strokeWidth={3}
+            dot={false}
             name="Page Views"
           />
 

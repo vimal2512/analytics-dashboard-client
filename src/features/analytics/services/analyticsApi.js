@@ -45,3 +45,5 @@ export const getSessionAnalytics = (trackingId, days) => {
     `/analytics/session-analytics?trackingId=${trackingId}&days=${days}`
   );
 };
+
+

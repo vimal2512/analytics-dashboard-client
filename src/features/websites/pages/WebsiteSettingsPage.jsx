@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useWebsites, useUpdateWebsite } from "../hooks/useWebsites";
 import WebsiteScript from "../components/WebsiteScript";
 
@@ -12,18 +12,14 @@ function WebsiteSettingsPage() {
 
   const data = websites?.find((w) => w._id === id);
 
-  const [form, setForm] = useState(null);
+  const [draft, setDraft] = useState(null);
   const [saved, setSaved] = useState(false);
 
-  useEffect(() => {
-  if (data) {
-    setForm({
+  const form = draft || (data && {
       timezone: data.timezone || "UTC",
       retentionDays: data.retentionDays || 30,
       isActive: data.isActive ?? true
     });
-  }
-}, [data]);
 
   const handleSave = () => {
 
@@ -82,7 +78,7 @@ if (!isLoading && !data) {
             className="border p-2 w-full rounded"
             value={form.timezone}
             onChange={(e) =>
-              setForm({ ...form, timezone: e.target.value })
+              setDraft({ ...form, timezone: e.target.value })
             }
           />
         </div>
@@ -97,7 +93,7 @@ if (!isLoading && !data) {
             className="border p-2 w-full rounded"
             value={form.retentionDays}
             onChange={(e) =>
-              setForm({
+              setDraft({
                 ...form,
                 retentionDays: Number(e.target.value)
               })
@@ -111,7 +107,7 @@ if (!isLoading && !data) {
             type="checkbox"
             checked={form.isActive}
             onChange={(e) =>
-              setForm({ ...form, isActive: e.target.checked })
+              setDraft({ ...form, isActive: e.target.checked })
             }
           />
           <label>Enable Tracking</label>

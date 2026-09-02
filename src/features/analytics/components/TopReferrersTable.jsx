@@ -2,7 +2,7 @@ function TopReferrersTable({ referrers }) {
 
   if (!referrers || referrers.length === 0) {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm text-gray-500">
+    <div className="empty-state p-6 text-sm">
       No page data yet
     </div>
   );
@@ -10,9 +10,9 @@ function TopReferrersTable({ referrers }) {
 
   return (
 
-    <div className="bg-white p-6 rounded-lg shadow">
+    <div className="data-panel p-5">
 
-      <h2 className="text-lg font-semibold mb-4">
+      <h2 className="panel-heading mb-4 font-semibold">
         Top Referrers
       </h2>
 
@@ -20,8 +20,8 @@ function TopReferrersTable({ referrers }) {
 
         <thead>
           <tr>
-            <th className="text-left">Source</th>
-            <th className="text-right">Visits</th>
+            <th className="p-2 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">Source</th>
+            <th className="p-2 text-right text-xs font-semibold uppercase tracking-wider text-slate-400">Visits</th>
           </tr>
         </thead>
 
@@ -30,8 +30,8 @@ function TopReferrersTable({ referrers }) {
           {referrers.map(r => (
 
             <tr key={r.source}>
-              <td>{r.source}</td>
-              <td className="text-right">{r.visits}</td>
+              <td className="border-t p-2 text-sm text-slate-700">{r.source}</td>
+              <td className="border-t p-2 text-right text-sm font-semibold text-slate-800">{r.visits}</td>
             </tr>
 
           ))}

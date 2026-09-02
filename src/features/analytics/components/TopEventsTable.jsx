@@ -2,7 +2,7 @@ function TopEventsTable({ events }) {
 
   if (!events || events.length === 0) {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm text-gray-500">
+    <div className="empty-state p-6 text-sm">
       No Events data yet
     </div>
   );
@@ -10,9 +10,9 @@ function TopEventsTable({ events }) {
 
   return (
 
-    <div className="bg-white p-6 rounded-lg shadow">
+    <div className="data-panel p-5">
 
-      <h2 className="text-lg font-semibold mb-4">
+      <h2 className="panel-heading mb-4 font-semibold">
         Top Events
       </h2>
 
@@ -20,8 +20,8 @@ function TopEventsTable({ events }) {
 
         <thead>
           <tr>
-            <th className="text-left">Event</th>
-            <th className="text-right">Count</th>
+            <th className="p-2 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">Event</th>
+            <th className="p-2 text-right text-xs font-semibold uppercase tracking-wider text-slate-400">Count</th>
           </tr>
         </thead>
 
@@ -31,9 +31,9 @@ function TopEventsTable({ events }) {
 
             <tr key={e.event}>
 
-              <td>{e.event}</td>
+              <td className="border-t p-2 text-sm text-slate-700">{e.event}</td>
 
-              <td className="text-right">{e.count}</td>
+              <td className="border-t p-2 text-right text-sm font-semibold text-slate-800">{e.count}</td>
 
             </tr>
 

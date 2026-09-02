@@ -1,7 +1,7 @@
-import AuthProvider from "../../features/auth/context/AuthProviders";
+import { AuthProvider } from "../../features/auth/context/AuthProviders";
 import QueryProvider from "./QueryProvider";
 
-import { SelectedWebsiteProvider } from "../../features/websites/context/SelectedWebsiteContext";
+import { SelectedWebsiteProvider } from "../../features/websites/context/SelectedWebsiteProvider";
 
 function AppProviders({ children }) {
   return (

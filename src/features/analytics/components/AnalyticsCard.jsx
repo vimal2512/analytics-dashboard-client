@@ -1,11 +1,11 @@
 function AnalyticsCard({ title, value }) {
     return(
-        <div className="bg-white rounded shadow p-6">
-            <p className="text-gray-500 text-sm">
+        <div className="metric-card p-5">
+            <p className="metric-label">
                 {title}
             </p>
 
-            <h2 className="text-3xl font-bold mt-2">
+            <h2 className="metric-value mt-3 text-3xl font-bold">
                 {value}
             </h2>
         </div>

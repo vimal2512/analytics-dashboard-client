@@ -1,5 +1,5 @@
 import { useWebsites } from "../hooks/useWebsites";
-import { useSelectedWebsite } from "../context/SelectedWebsiteContext";
+import { useSelectedWebsite } from "../hooks/useSelectedWebsite";
 
 function WebsiteSelector() {
 
@@ -9,12 +9,12 @@ function WebsiteSelector() {
 
   const websites = data || [];
 
-  if (isLoading) return <p>Loading websites...</p>;
+  if (isLoading) return <p className="text-xs text-slate-500">Loading workspace...</p>;
 
   return (
 
     <select
-      className="border p-2 rounded"
+      className="site-select px-3 py-2 text-sm font-medium"
       value={selectedWebsite?._id || ""}
       onChange={(e) => {
 

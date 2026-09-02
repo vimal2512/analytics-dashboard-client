@@ -3,50 +3,52 @@ import { NavLink } from "react-router-dom";
 function Sidebar() {
 
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-3 px-4 py-2 rounded-lg transition
+    `sidebar-link flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
     ${
       isActive
-        ? "bg-gray-800 text-white"
-        : "text-gray-300 hover:bg-gray-800 hover:text-white"
+        ? "sidebar-link-active"
+        : ""
     }`;
 
   return (
-    <div className="w-64 bg-gray-950 text-white h-screen flex flex-col">
+    <div className="sidebar-shell flex h-screen flex-col">
 
       {/* Logo */}
 
-      <div className="px-6 py-5 border-b border-gray-800">
-        <h1 className="text-xl font-bold tracking-wide">
-          Analytics SaaS
+      <div className="border-b border-white/10 px-5 py-6">
+        <h1 className="brand-mark text-xl font-bold text-white">
+          <span className="brand-dot" />Pulseboard
         </h1>
+        <p className="sidebar-copy mt-1 pl-5 text-xs text-slate-400">Product intelligence</p>
       </div>
 
       {/* Navigation */}
 
-      <nav className="flex-1 px-4 py-6 space-y-2">
+      <nav className="flex-1 space-y-2 px-3 py-7">
+        <p className="sidebar-nav-label px-3 pb-2">Workspace</p>
 
         <NavLink to="/dashboard" className={linkClass}>
-          📊 Dashboard
+          <span className="sidebar-icon">◈</span><span className="sidebar-copy">Dashboard</span>
         </NavLink>
 
         <NavLink to="/websites" className={linkClass}>
-          🌐 Websites
+          <span className="sidebar-icon">⌁</span><span className="sidebar-copy">Websites</span>
         </NavLink>
 
         <NavLink to="/analytics" className={linkClass}>
-          📈 Analytics
+          <span className="sidebar-icon">↗</span><span className="sidebar-copy">Analytics</span>
         </NavLink>
 
         <NavLink to="/settings" className={linkClass}>
-          ⚙️ Settings
+          <span className="sidebar-icon">⊙</span><span className="sidebar-copy">Settings</span>
         </NavLink>
 
       </nav>
 
       {/* Footer */}
 
-      <div className="px-6 py-4 border-t border-gray-800 text-sm text-gray-400">
-        v1.0 Analytics
+      <div className="sidebar-footer border-t border-white/10 px-5 py-4 text-xs">
+        <span className="sidebar-copy">Pulseboard workspace</span><span className="float-right">v1.0</span>
       </div>
 
     </div>

@@ -2,12 +2,12 @@ function TopPagesTable({ pages }) {
 
   if (!pages || pages.length === 0) {
     return (
-      <div className="bg-white rounded shadow p-6">
-        <h2 className="font-bold mb-4">
+      <div className="data-panel p-5">
+        <h2 className="panel-heading mb-4 font-semibold">
           Top Pages
         </h2>
 
-        <p className="text-gray-500">
+        <p className="panel-meta">
           No page data yet
         </p>
       </div>
@@ -15,9 +15,9 @@ function TopPagesTable({ pages }) {
   }
 
   return (
-    <div className="bg-white rounded shadow p-6">
+    <div className="data-panel p-5">
 
-      <h2 className="font-bold mb-4">
+      <h2 className="panel-heading mb-4 font-semibold">
         Top Pages
       </h2>
 
@@ -25,8 +25,8 @@ function TopPagesTable({ pages }) {
 
         <thead>
           <tr className="border-b">
-            <th className="text-left p-2">Page</th>
-            <th className="text-left p-2">Views</th>
+            <th className="p-2 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">Page</th>
+            <th className="p-2 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">Views</th>
           </tr>
         </thead>
 
@@ -35,11 +35,11 @@ function TopPagesTable({ pages }) {
           {pages.map((page) => (
             <tr key={page.path} className="border-b">
 
-              <td className="p-2">
+              <td className="border-t p-2 text-sm text-slate-700">
                 {page.path}
               </td>
 
-              <td className="p-2">
+              <td className="border-t p-2 text-sm font-semibold text-slate-800">
                 {page.views}
               </td>
 
