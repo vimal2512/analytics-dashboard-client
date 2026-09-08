@@ -24,7 +24,9 @@ export function useWebsites() {
       return res.data;
     },
 
-    enabled: !!token // ✅ MUST be inside object
+    enabled: !!token,
+    retry: (failureCount, error) =>
+      error.response?.status !== 429 && failureCount < 3
   });
 
 }
